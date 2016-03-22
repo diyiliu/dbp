@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <property name="USER_HOME" value="./logs/"/>
+    <timestamp key="FILE_NAME" datePattern="yyyy-MM-dd-HH"/>
+
+    <prudent>true</prudent>
+
+    <!-- 打印到控制台-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %logger{96}.%thread [%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--DEBUG-->
+    <appender name="LOG-DEBUG"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <prudent>true</prudent>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/DEBUG-%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <!-- 保存前7天的日志文件 -->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <!--  如果超过100MB就删除-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+        <layout>
+            <Pattern>
+                [ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %logger{96}.%thread [%line] - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <!--INFO-->
+    <appender name="LOG-INFO"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <file>${USER_HOME}/INFO.log</file>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${USER_HOME}/INFO-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 保留7天 -->
+            <maxHistory>7</maxHistory>
+            <!-- 在基于时间的基础上，基于文件大小生成日志文件策略 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 单个文件不能大于100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder><!--格式化输出-->
+            <pattern>[ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %logger{96}.%thread [%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--WARN-->
+    <appender name="LOG-WARN"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <prudent>true</prudent>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/WARN-%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <!-- 保存前7天的日志文件 -->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <!--  如果超过100MB就删除-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+        <layout>
+            <Pattern>
+                [ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %logger{96}.%thread [%line] - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+
+    <!--ERROR-->
+    <appender name="LOG-ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <file>${USER_HOME}/ERROR.log</file>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${USER_HOME}/ERROR-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 保留15天 -->
+            <maxHistory>15</maxHistory>
+            <!-- 在基于时间的基础上，基于文件大小生成日志文件策略 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 单个文件不能大于100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder><!--格式化输出-->
+            <pattern>[ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %logger{96}.%thread [%line] - %msg%n</pattern>
+        </encoder>
+
+    </appender>
+
+
+    <!-- 设置日志级别 -->
+    <root level="INFO">
+        <appender-ref ref="LOG-DEBUG"/>
+        <appender-ref ref="LOG-INFO"/>
+        <appender-ref ref="LOG-WARN"/>
+        <appender-ref ref="LOG-ERROR"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
