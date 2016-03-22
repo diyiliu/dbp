@@ -13,6 +13,8 @@
     <!-- 引入资源文件 -->
     <context:property-placeholder location="classpath:*.properties"/>
 
+    <import resource="classpath:spring-*.xml"/>
+
     <!-- 数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->
