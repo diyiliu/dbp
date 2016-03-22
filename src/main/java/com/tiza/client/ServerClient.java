@@ -4,16 +4,15 @@ import com.tiza.handler.ServerDecoder;
 import com.tiza.handler.ServerEncoder;
 import com.tiza.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Resource;
 
 /**
  * Description: ServerClient
@@ -26,8 +25,10 @@ public class ServerClient extends Thread implements IClient {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
     private int port = 8088;
+
+    @Resource
+    private ChannelInboundHandler serverHandler;
 
     @Override
     public void init() {
@@ -54,7 +55,7 @@ public class ServerClient extends Thread implements IClient {
                             ch.pipeline().addLast(new ServerDecoder())
                                     .addLast(new ServerEncoder())
                                     .addLast(new IdleStateHandler(60, 0, 0))
-                                    .addLast(new ServerHandler());
+                                    .addLast(serverHandler);
                         }
                     });
 

@@ -9,6 +9,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.Charset;
 
@@ -18,6 +19,7 @@ import java.nio.charset.Charset;
  * Update: 2016-03-22 16:34
  */
 
+@Component
 public class ServerHandler extends ChannelInboundHandlerAdapter{
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -25,7 +27,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         String key = ctx.channel().remoteAddress().toString().trim().replaceFirst("/", "");
-
         logger.info("[{}]建立连接...", key);
 
         ctx.channel().closeFuture().addListener(new ChannelFutureListener() {
@@ -60,7 +61,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-
+        logger.error("服务器异常...{}", cause.getStackTrace());
+        ctx.close();
     }
 
     @Override
