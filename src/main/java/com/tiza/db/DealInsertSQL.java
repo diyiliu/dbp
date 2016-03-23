@@ -1,11 +1,7 @@
 package com.tiza.db;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -17,16 +13,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 
 @Service
-public class DealInsertSQL extends IDealSQL{
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+public class DealInsertSQL extends IDealSQL {
 
     private static ConcurrentLinkedQueue<String> insertPool = new ConcurrentLinkedQueue<>();
 
-    private final static int BATCH_SIZE = 20;
-
-    @Resource
-    private JdbcTemplate jdbcTemplate;
+    private final static int BATCH_SIZE = 10;
 
     @Override
     public void run() {
@@ -34,26 +25,31 @@ public class DealInsertSQL extends IDealSQL{
 
         List<String> sqlList = new ArrayList<>(BATCH_SIZE);
 
-        for (;;){
-            while (!insertPool.isEmpty()){
+        for (; ; ) {
+            while (!insertPool.isEmpty()) {
 
                 String sql = insertPool.poll();
                 sqlList.add(sql);
 
-                if (sqlList.size() == BATCH_SIZE){
-                    batch(jdbcTemplate, sqlList);
+                if (sqlList.size() == BATCH_SIZE) {
+                    batch(sqlList);
                     sqlList.clear();
                 }
             }
+            if (sqlList.size() > 0) {
+
+                batch(sqlList);
+                sqlList.clear();
+            }
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static void putSQL(String sql){
+    public static void putSQL(String sql) {
 
         insertPool.add(sql);
     }

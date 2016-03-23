@@ -1,7 +1,5 @@
 package com.tiza;
 
-import com.tiza.db.DealInsertSQL;
-import com.tiza.db.DealUpdateSQL;
 import com.tiza.util.SpringUtil;
 
 /**
@@ -15,13 +13,5 @@ public class Main {
     public static void main(String[] args) {
 
         SpringUtil.init();
-
-        startDealSQL();
-    }
-
-    public static void startDealSQL(){
-
-        new DealInsertSQL().start();
-        new DealUpdateSQL().start();
     }
 }

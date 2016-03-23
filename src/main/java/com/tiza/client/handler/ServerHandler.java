@@ -61,8 +61,10 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
         int sqlId = getSQLID(sql);
 
         if (sqlId == Constant.SQL.INSERT){
+            logger.info("收到INSERT SQL: {}", sql);
             DealInsertSQL.putSQL(sql);
         }else if (sqlId == Constant.SQL.UPDATE){
+            logger.info("收到UPDATE SQL: {}", sql);
             DealUpdateSQL.putSQL(sql);
         }else {
             logger.warn("无法处理SQL:[{}]", sql);

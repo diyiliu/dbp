@@ -1,11 +1,7 @@
 package com.tiza.db;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -17,14 +13,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Service
 public class DealUpdateSQL extends IDealSQL{
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private static ConcurrentLinkedQueue<String> updatePool = new ConcurrentLinkedQueue<>();
 
     private final static int BATCH_SIZE = 10;
-
-    @Resource
-    private JdbcTemplate jdbcTemplate;
 
 
     @Override
