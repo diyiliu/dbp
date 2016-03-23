@@ -1,10 +1,10 @@
-package com.tiza.handler;
+package com.tiza.client.handler;
 
+import com.tiza.db.DealInsertSQL;
+import com.tiza.db.DealUpdateSQL;
+import com.tiza.util.config.Constant;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.*;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
  */
 
 @Component
+@ChannelHandler.Sharable
 public class ServerHandler extends ChannelInboundHandlerAdapter{
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -55,8 +56,17 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
         buf.readBytes(content);
 
         String sql = new String(content, Charset.forName("UTF-8"));
+        logger.info("收到SQL: {}", sql);
 
-        logger.info("收到消息: {}", sql);
+        int sqlId = getSQLID(sql);
+
+        if (sqlId == Constant.SQL.INSERT){
+            DealInsertSQL.putSQL(sql);
+        }else if (sqlId == Constant.SQL.UPDATE){
+            DealUpdateSQL.putSQL(sql);
+        }else {
+            logger.warn("无法处理SQL:[{}]", sql);
+        }
     }
 
     @Override
@@ -87,4 +97,18 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
             }
         }
     }
+
+    private int getSQLID(String sql){
+
+        if (sql.toUpperCase().contains("INSERT")){
+            return Constant.SQL.INSERT;
+        }
+
+        if (sql.toUpperCase().contains("UPDATE")){
+            return Constant.SQL.UPDATE;
+        }
+
+        return -1;
+    }
+
 }

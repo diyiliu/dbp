@@ -1,4 +1,4 @@
-package com.tiza.handler;
+package com.tiza.client.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

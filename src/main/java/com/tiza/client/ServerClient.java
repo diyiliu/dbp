@@ -1,8 +1,7 @@
 package com.tiza.client;
 
-import com.tiza.handler.ServerDecoder;
-import com.tiza.handler.ServerEncoder;
-import com.tiza.handler.ServerHandler;
+import com.tiza.client.handler.ServerDecoder;
+import com.tiza.client.handler.ServerEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -61,6 +60,7 @@ public class ServerClient extends Thread implements IClient {
 
             ChannelFuture f = b.bind(port).sync();
             logger.info("DBP服务器启动...");
+
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

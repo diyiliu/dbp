@@ -1,4 +1,4 @@
-package com.tiza.handler;
+package com.tiza.client.handler;
 
 import com.tiza.util.Common;
 import io.netty.buffer.ByteBuf;
