@@ -3,7 +3,6 @@ package com.tiza.db;
 import com.tiza.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -29,7 +28,7 @@ public abstract class IDealSQL extends Thread {
         try {
             jdbcTemplate.batchUpdate(sqlArray);
         } catch (BadSqlGrammarException e) {
-            logger.error("SQL错误！[{}], 描述[{}]", e.getSql(), e.getSQLException());
+            logger.error("SQL错误！[{}], 描述[{}]", e.getSql(), e.getSQLException().toString());
         }
     }
 
