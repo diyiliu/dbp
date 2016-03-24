@@ -11,9 +11,10 @@
     <context:component-scan base-package="com.tiza.*"/>
 
     <!-- 引入资源文件 -->
+    <import resource="classpath:spring-*.xml"/>
+
     <context:property-placeholder location="classpath:*.properties"/>
 
-    <import resource="classpath:spring-*.xml"/>
 
     <!-- 数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
