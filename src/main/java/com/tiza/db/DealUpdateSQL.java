@@ -24,6 +24,11 @@ public class DealUpdateSQL extends IDealSQL {
 
         for (; ; ) {
             deal(updatePool, BATCH_SIZE, SQL_TYPE);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

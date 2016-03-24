@@ -2,6 +2,7 @@ package com.tiza.db;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,11 +37,21 @@ public abstract class IDealSQL extends Thread {
         } catch (BadSqlGrammarException e) {
             t2 = new Date();
             logger.error("SQL错误！类型[{}]，耗时[{}毫秒], SQL[{}]， 描述[{}]", type, (t2.getTime() - t1.getTime()), e.getSql(), e.getSQLException().getMessage());
-        }catch (UncategorizedSQLException e){
+        } catch (DataAccessException e) {
+            execute(sqlList);
             t2 = new Date();
-            logger.error("SQL错误！类型[{}]，耗时[{}毫秒], SQL[{}]， 描述[{}]", type, (t2.getTime() - t1.getTime()), e.getSql(), e.getSQLException().getMessage());
-        }catch (Exception e){
-            logger.error("SQL错误！", e.getStackTrace());
+            logger.info("异常中断： 类型[{}]，数量[{}]，耗时[{}毫秒]",
+                    type, sqlArray.length, (t2.getTime() - t1.getTime()));
+        }
+    }
+
+    public void execute(List<String> sqlList) {
+        for (String sql : sqlList) {
+            try {
+                jdbcTemplate.execute(sql);
+            } catch (DataAccessException e) {
+                logger.error("SQL错误！[{}], {}", sql, e.getMessage());
+            }
         }
     }
 
