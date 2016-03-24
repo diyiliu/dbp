@@ -30,7 +30,6 @@ public class ServerDecoder extends ByteToMessageDecoder {
         in.markReaderIndex();
 
         int length = in.readUnsignedShort();
-
         int cmd = in.readByte();
 
         if (cmd == 0x00) {
@@ -39,6 +38,7 @@ public class ServerDecoder extends ByteToMessageDecoder {
         } else if (cmd == 0x01) {
 
             if (in.readableBytes() < length - 3) {
+                in.resetReaderIndex();
                 return;
             }
 

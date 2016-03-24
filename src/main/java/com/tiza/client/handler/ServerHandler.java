@@ -56,7 +56,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
         buf.readBytes(content);
 
         String sql = new String(content, Charset.forName("UTF-8"));
-        logger.info("收到SQL: {}", sql);
+        //logger.info("收到SQL: {}", sql);
 
         int sqlId = getSQLID(sql);
 

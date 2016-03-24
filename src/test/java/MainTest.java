@@ -9,23 +9,34 @@ import org.junit.Test;
 public class MainTest {
 
     @Test
-    public void test(){
+    public void test() {
 
         String sql = "insert abc values";
 
         System.out.println(getSQLID(sql));
     }
 
-    public static  int getSQLID(String sql){
+    public static int getSQLID(String sql) {
 
-        if (sql.toUpperCase().contains("INSERT")){
+        if (sql.toUpperCase().contains("INSERT")) {
             return Constant.SQL.INSERT;
         }
 
-        if (sql.toUpperCase().contains("UPDATE")){
+        if (sql.toUpperCase().contains("UPDATE")) {
             return Constant.SQL.UPDATE;
         }
 
         return -1;
+    }
+
+    @Test
+    public void testErro() {
+        /**
+        byte[] bytes = new byte[]{64 65 73 20 74 67 33 77 72 69};
+
+        System.out.println(new String(bytes));
+        bytes = new byte[]{73 74 6E 20 65 69 20 6D 20 65 61 65 37 20};
+        System.out.println(new String(bytes));
+         */
     }
 }

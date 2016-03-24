@@ -11,21 +11,23 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 
 @Service
-public class DealUpdateSQL extends IDealSQL{
+public class DealUpdateSQL extends IDealSQL {
 
     private static ConcurrentLinkedQueue<String> updatePool = new ConcurrentLinkedQueue<>();
 
     private final static int BATCH_SIZE = 10;
-
+    private final static String SQL_TYPE = "UPDATE";
 
     @Override
     public void run() {
-        logger.info("更新SQL线程启动...");
+        //logger.info("更新SQL线程启动...");
 
-
+        for (; ; ) {
+            deal(updatePool, BATCH_SIZE, SQL_TYPE);
+        }
     }
 
-    public static void putSQL(String sql){
+    public static void putSQL(String sql) {
 
         updatePool.add(sql);
     }

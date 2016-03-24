@@ -17,35 +17,15 @@ public class DealInsertSQL extends IDealSQL {
 
     private static ConcurrentLinkedQueue<String> insertPool = new ConcurrentLinkedQueue<>();
 
-    private final static int BATCH_SIZE = 10;
+    private final static int BATCH_SIZE = 20;
+    private final static String SQL_TYPE = "INSERT";
 
     @Override
     public void run() {
-        logger.info("插入SQL线程启动...");
-
-        List<String> sqlList = new ArrayList<>(BATCH_SIZE);
+        //logger.info("插入SQL线程启动...");
 
         for (; ; ) {
-            while (!insertPool.isEmpty()) {
-
-                String sql = insertPool.poll();
-                sqlList.add(sql);
-
-                if (sqlList.size() == BATCH_SIZE) {
-                    batch(sqlList);
-                    sqlList.clear();
-                }
-            }
-            if (sqlList.size() > 0) {
-
-                batch(sqlList);
-                sqlList.clear();
-            }
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            deal(insertPool, BATCH_SIZE, SQL_TYPE);
         }
     }
 
