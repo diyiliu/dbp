@@ -3,6 +3,7 @@ package com.tiza.db;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
@@ -26,7 +27,7 @@ public abstract class IDealSQL extends Thread {
     public void batch(List<String> sqlList, String type) {
         String[] sqlArray = sqlList.toArray(new String[sqlList.size()]);
         Date t1 = new Date();
-        Date t2 = null;
+        Date t2;
         try {
             jdbcTemplate.batchUpdate(sqlArray);
             t2 = new Date();
@@ -35,6 +36,11 @@ public abstract class IDealSQL extends Thread {
         } catch (BadSqlGrammarException e) {
             t2 = new Date();
             logger.error("SQL错误！类型[{}]，耗时[{}毫秒], SQL[{}]， 描述[{}]", type, (t2.getTime() - t1.getTime()), e.getSql(), e.getSQLException().getMessage());
+        }catch (UncategorizedSQLException e){
+            t2 = new Date();
+            logger.error("SQL错误！类型[{}]，耗时[{}毫秒], SQL[{}]， 描述[{}]", type, (t2.getTime() - t1.getTime()), e.getSql(), e.getSQLException().getMessage());
+        }catch (Exception e){
+            logger.error("SQL错误！", e.getStackTrace());
         }
     }
 
