@@ -27,7 +27,7 @@ public class DealInsertSQL extends IDealSQL {
         for (; ; ) {
             deal(insertPool, BATCH_SIZE, SQL_TYPE);
             try {
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
