@@ -33,7 +33,7 @@ public class ServerDecoder extends ByteToMessageDecoder {
         int cmd = in.readByte();
 
         if (cmd == 0x00) {
-            logger.info("收到心跳...");
+            //logger.info("收到心跳...");
             // 心跳内容为空
         } else if (cmd == 0x01) {
 

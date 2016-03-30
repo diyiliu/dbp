@@ -1,5 +1,6 @@
 package com.tiza.db;
 
+import com.tiza.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -32,16 +33,14 @@ public abstract class IDealSQL extends Thread {
         try {
             jdbcTemplate.batchUpdate(sqlArray);
             t2 = new Date();
-            logger.info("批处理： 类型[{}]，数量[{}]，耗时[{}毫秒]",
-                    type, sqlArray.length, (t2.getTime() - t1.getTime()));
+            logger.info("批处理： 类型[{}]，数量[{}]，耗时[{}毫秒], SQL{}", type, sqlArray.length, (t2.getTime() - t1.getTime()), JacksonUtil.toJson(sqlArray));
         } catch (BadSqlGrammarException e) {
             t2 = new Date();
             logger.error("SQL错误！类型[{}]，耗时[{}毫秒], SQL[{}]， 描述[{}]", type, (t2.getTime() - t1.getTime()), e.getSql(), e.getSQLException().getMessage());
         } catch (DataAccessException e) {
             execute(sqlList);
             t2 = new Date();
-            logger.info("异常中断： 类型[{}]，数量[{}]，耗时[{}毫秒]",
-                    type, sqlArray.length, (t2.getTime() - t1.getTime()));
+            logger.warn("异常中断： 类型[{}]，数量[{}]，耗时[{}毫秒]", type, sqlArray.length, (t2.getTime() - t1.getTime()));
         }
     }
 
