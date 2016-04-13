@@ -7,5 +7,5 @@ package com.tiza.client;
  */
 public interface IClient {
 
-    public void init();
+    void init();
 }

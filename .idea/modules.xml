@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/dbp.iml" filepath="$PROJECT_DIR$/dbp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dbp.iml" filepath="$PROJECT_DIR$/.idea/modules/dbp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dbp_main.iml" filepath="$PROJECT_DIR$/.idea/modules/dbp_main.iml" group="dbp" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dbp_test.iml" filepath="$PROJECT_DIR$/.idea/modules/dbp_test.iml" group="dbp" />
     </modules>
   </component>
 </project>

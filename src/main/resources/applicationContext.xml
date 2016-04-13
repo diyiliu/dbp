@@ -59,7 +59,7 @@
 
     <!-- DBP服务器 -->
     <bean class="com.tiza.client.ServerClient" init-method="init">
-        <property name="port" value="8088"/>
+        <property name="port" value="${dbp.port}"/>
     </bean>
 
     <!-- Spring jdbc -->

@@ -19,7 +19,6 @@ import javax.annotation.Resource;
  * Update: 2016-03-22 16:32
  */
 
-
 public class ServerClient extends Thread implements IClient {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -57,7 +56,6 @@ public class ServerClient extends Thread implements IClient {
                                     .addLast(serverHandler);
                         }
                     });
-
             ChannelFuture f = b.bind(port).sync();
             logger.info("DBP服务器启动...");
 
